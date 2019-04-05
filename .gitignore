@@ -1,0 +1,5 @@
+*.map
+*.cache
+*.log
+.credentials*
+*/node_modules/
