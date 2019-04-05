@@ -1,0 +1,16 @@
+{
+  "name": "dam-pedal-api",
+  "version": "1.0.0",
+  "description": "Provides access to the database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node index.js"
+  },
+  "author": "Mason Sidebottom",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  }
+}
