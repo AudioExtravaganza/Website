@@ -5,10 +5,11 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import Template from './pages/template'
 import Home from './pages/home'
-import About from './pages/about'
+import Team from './pages/team'
 import Explore from './pages/explore'
 import Create from './pages/create'
 import Header from './components/header.js'
+import Docs from './pages/docs'
 class App extends Component {
     render() {
         return (
@@ -17,7 +18,8 @@ class App extends Component {
                 <Header />
                 <main>
                     <Route path='/' exact component={Home} />
-                    <Route path='/about' component={About} />
+                    <Route path='/team' component={Team} />
+                    <Route path='/docs' component={Docs} />
                     <Route path='/explore' component={Explore} />
                     <Route path='/create' component={Create} />
                 </main>

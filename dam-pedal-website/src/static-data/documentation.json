@@ -1,0 +1,196 @@
+{
+    "classes":[
+        {
+            "name" : "DAMPedalController",
+            "desc" : "User facing class to and manage DAMScene allocation, audio routing, and input via OSC. Once instantiated, the controller can be updated of the  state via OSC commands.",
+            "functions" : [
+                {
+                    "name" : "build",
+                    "desc" : "Basic initializer. Must be explicitly called after an instance is created",
+                    "return" : "None",
+                    "params": [
+                        {
+                            "type" : "Server",
+                            "name" : "parent",
+                            "desc" : "The parent of the controller, this should always be the server"
+                        }
+                    ]
+                },
+                {
+                    "name" : "addScene",
+                    "desc" : "Adds a DAMScene to the controller.",
+                    "return" : "None",
+                    "params": [
+                        {
+                            "type" : "String",
+                            "name" : "name",
+                            "desc" : "The name of the scene to be used. This is a key in a dictionary, so it must be unique. Generally this should match the name of the Scene."
+                        },
+                        {
+                            "type" : "DAMScene",
+                            "name" : "scene",
+                            "desc" : "The scene to be added to the controller."
+                        }
+                    ]
+                },
+                {
+                    "name" : "removeScene",
+                    "desc" : "Remove a DAMScene from the controller.",
+                    "return" : "None",
+                    "params": [
+                        {
+                            "type" : "String",
+                            "name" : "name",
+                            "desc" : "The name of the scene to be removed."
+                        }
+                    ]
+                },
+                {
+                    "name" : "setInputBus",
+                    "desc" : "Updates the main input bus for the pedal.",
+                    "return" : "None",
+                    "params": [
+                        {
+                            "type" : "Bus-Audio",
+                            "name" : "bus",
+                            "desc" : "The bus to use as the main input."
+                        }
+                    ]
+                },
+                {
+                    "name" : "setOutputBus",
+                    "desc" : "Updates the main output bus for the pedal.",
+                    "return" : "None",
+                    "params": [
+                        {
+                            "type" : "Bus-Audio",
+                            "name" : "bus",
+                            "desc" : "The bus to send output to."
+                        }
+                    ]
+                },
+                {
+                    "name" : "free",
+                    "desc" : "Deallocates all resources that were created by controller from the server.",
+                    "return" : "None",
+                    "params": [
+                    ]
+                }
+            ]
+        },
+        {
+            "name":"DAMScene",
+            "desc":"This class is maintains a set of 3 DAMChains. Scenes can be created and then passed to the DAMPedalController.",
+            "functions":[
+                {
+                    "name":"prebuild",
+                    "desc":"Initializes all members of the class. This should be called in front-facing code prior to passing the instance to the DAMPedalController",
+                    "return":"None",
+                    "params":[
+                        {
+                            "name":"name",
+                            "type":"String",
+                            "desc":"The name of the Scene"
+                        }
+                    ]
+                },
+                {
+                    "name":"getName",
+                    "desc":"Accessor for the name of the scene",
+                    "return":"String",
+                    "params":[]
+
+                },
+                {
+                    "name":"setChain",
+                    "desc":"Assigns a chain to the scene at the specified index",
+                    "return":"None",
+                    "params": [
+                        {
+                            "name":"chain",
+                            "type":"DAMChain",
+                            "desc":"The chain to assign to the scene."
+                        },
+                        {
+                            "name":"index",
+                            "type":"Integer",
+                            "desc":"The index to assign the chain to. Index 0, binds to foot-switch 0." 
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name":"DAMChain",
+            "desc":"Controls the effects to be fired on the tap and hold action.",
+            "functions":[
+                {
+                    "name":"prebuild",
+                    "desc":"Initializes all members of the class. This should be called in front-facing code prior to passing the instance to the DAMPedalController",
+                    "return":"None",
+                    "params":[
+                        {
+                            "name":"tapAction",
+                            "type":"String",
+                            "desc":"The name of the synthdef to fire on tap action. The synthdef must exist on the server. See tutorials(WIP) or more documentation for how to format parameters."
+                        },
+                        {
+                            "name":"tapParams",
+                            "type":"Bool Array",
+                            "desc":"Defaults to all false. Binds parameters to a knob. eg. [True, True, False, False] binds the first and second knobs to the respective parameters in the synthdef."
+                        },
+                        {
+                            "name":"holdAction",
+                            "type":"String",
+                            "desc":"Defaults to nil. The name of the synthdef to fire on tap action. The synthdef must exist on the server. See tutorials(WIP) or more documentation for how to format parameters."
+                        },
+                        {
+                            "name":"holdParams",
+                            "type":"Bool Array",
+                            "desc":"Defaults to all false. Binds parameters to a knob. eg. [True, True, False, False] binds the first and second knobs to the respective parameters in the synthdef."
+                        }
+                    ]
+                },
+                {
+                    "name":"setTap",
+                    "desc":"Binds a synthdef to the tap action for the chain.",
+                    "return":"None",
+                    "params":[
+                        {
+                            "name":"synthName",
+                            "type":"String",
+                            "desc":"The name of the synthdef to fire on tap action. The synthdef must exist on the server. See tutorials(WIP) or more documentation for how to format parameters."
+                        },
+                        {
+                            "name":"params",
+                            "type":"Bool Array",
+                            "desc":"Defaults to all false. Binds parameters to a knob. eg. [True, True, False, False] binds the first and second knobs to the respective parameters in the synthdef."
+                        }
+                    ]
+                },
+                {
+                    "name":"setHold",
+                    "desc":"Binds a synthdef to the hold action for the chain.",
+                    "return":"None",
+                    "params":[
+                        {
+                            "name":"synthName",
+                            "type":"String",
+                            "desc":"The name of the synthdef to fire on tap action. The synthdef must exist on the server. See tutorials(WIP) or more documentation for how to format parameters."
+                        },
+                        {
+                            "name":"params",
+                            "type":"Bool Array",
+                            "desc":"Defaults to all false. Binds parameters to a knob. eg. [True, True, False, False] binds the first and second knobs to the respective parameters in the synthdef."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name":"DAMLooper",
+            "desc":"Child class of the DAMChain that provides functionality for looping. There are no public function for the looper, once one is created with new(), it is set.",
+            "functions":[]
+        }
+    ]
+}
